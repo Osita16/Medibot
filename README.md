@@ -163,6 +163,8 @@ The simulated hospital environment includes:
 - **Patient Room 1** (Green): Located on the right side, bottom (-8, -8)
 - **Patient Room 2** (Red): Located on the right side, top (8, 8)
 
+![Hospital Layout](docs/hospital_layout.png)
+
 ## Robot Specifications
 
 - **Base**: Differential drive platform (0.6m x 0.4m x 0.2m)

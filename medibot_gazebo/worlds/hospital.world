@@ -1,0 +1,152 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="hospital_world">
+
+    <!-- ===== PHYSICS ===== -->
+    <physics type="ode">
+      <real_time_factor>1.0</real_time_factor>
+      <max_step_size>0.001</max_step_size>
+    </physics>
+
+    <!-- ===== LIGHT & GROUND ===== -->
+    <include><uri>model://sun</uri></include>
+    <include><uri>model://ground_plane</uri></include>
+
+    <!-- ===== LEFT WALL ===== -->
+    <model name="corridor_left_wall">
+      <static>true</static>
+      <pose>0 0.7 1 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>15 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>15 0.2 2</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <!-- ===== RIGHT WALL ===== -->
+    <model name="corridor_right_wall">
+      <static>true</static>
+      <pose>0 -0.7 1 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>15 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>15 0.2 2</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <!-- ===== PATIENT ROOM WALL ===== -->
+    <model name="patient_room_wall">
+      <static>true</static>
+      <pose>-5 1.8 1 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>4 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>4 0.2 2</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <!-- ===== HOSPITAL BED ===== -->
+    <model name="hospital_bed">
+      <static>true</static>
+      <pose>2 0 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>1.6 0.8 0.5</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>1.6 0.8 0.5</size></box></geometry>
+          <material><ambient>0.95 0.95 0.95 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== CENTER LINE ===== -->
+    <model name="corridor_line">
+      <static>true</static>
+      <pose>0 0 0.01 0 0 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><box><size>15 0.05 0.01</size></box></geometry>
+          <material><ambient>0.2 0.6 0.9 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== DOOR FRAME ===== -->
+    <model name="door_frame">
+      <static>true</static>
+      <pose>-5 1.5 1 0 0 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><box><size>1.2 0.05 2</size></box></geometry>
+          <material><ambient>0.7 0.7 0.7 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== ROOM SIGN ===== -->
+    <model name="sign_patient_room">
+      <static>true</static>
+      <pose>-5 2.1 1.8 0 0 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><box><size>0.8 0.05 0.3</size></box></geometry>
+          <material><ambient>0.2 0.2 0.8 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== ICU GLASS ===== -->
+    <model name="icu_glass_wall">
+      <static>true</static>
+      <pose>4 1.8 1 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>3 0.05 2</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>3 0.05 2</size></box></geometry>
+          <material><ambient>0.6 0.8 0.9 0.5</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ===== NURSE STATION ===== -->
+    <model name="nurse_station">
+      <static>true</static>
+      <pose>-2 1.2 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>2 0.6 1</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>2 0.6 1</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <!-- ===== T JUNCTION ===== -->
+    <model name="t_corridor_wall">
+      <static>true</static>
+      <pose>6 0 1 0 0 1.57</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>6 0.2 2</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <!-- ===== PHARMACY ===== -->
+    <model name="pharmacy_counter">
+      <static>true</static>
+      <pose>8 -1 0.6 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>2.2 0.7 1.2</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>2.2 0.7 1.2</size></box></geometry></visual>
+      </link>
+    </model>
+
+    <!-- ===== EMERGENCY CART ===== -->
+    <model name="emergency_cart">
+      <static>true</static>
+      <pose>1 -0.4 0.4 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>0.6 0.4 0.8</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>0.6 0.4 0.8</size></box></geometry>
+          <material><ambient>0.9 0.3 0.3 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>
+

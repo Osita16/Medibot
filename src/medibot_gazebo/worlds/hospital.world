@@ -1,0 +1,495 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="hospital">
+    
+    <!-- Physics -->
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Ground Plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Hospital Building Structure -->
+    <!-- Floor -->
+    <model name="hospital_floor">
+      <static>true</static>
+      <link name="floor">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>20 20</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.9 0.9 0.9 1</ambient>
+            <diffuse>0.9 0.9 0.9 1</diffuse>
+            <specular>0.01 0.01 0.01 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Pharmacy - Starting point -->
+    <model name="pharmacy">
+      <static>true</static>
+      <pose>-8 -8 0 0 0 0</pose>
+      <link name="pharmacy_walls">
+        <!-- Front wall -->
+        <collision name="front_wall">
+          <pose>0 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="front_wall_visual">
+          <pose>0 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 0.5 0.8 1</ambient>
+            <diffuse>0.0 0.5 0.8 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Back wall -->
+        <collision name="back_wall">
+          <pose>0 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="back_wall_visual">
+          <pose>0 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 0.5 0.8 1</ambient>
+            <diffuse>0.0 0.5 0.8 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Left wall -->
+        <collision name="left_wall">
+          <pose>-2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="left_wall_visual">
+          <pose>-2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 0.5 0.8 1</ambient>
+            <diffuse>0.0 0.5 0.8 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Right wall with door opening -->
+        <collision name="right_wall_1">
+          <pose>2 -1 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="right_wall_1_visual">
+          <pose>2 -1 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 0.5 0.8 1</ambient>
+            <diffuse>0.0 0.5 0.8 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="right_wall_2">
+          <pose>2 1.5 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 1 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="right_wall_2_visual">
+          <pose>2 1.5 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 1 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0 0.5 0.8 1</ambient>
+            <diffuse>0.0 0.5 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Corridor walls -->
+    <model name="corridor">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="corridor_walls">
+        <!-- Top corridor wall -->
+        <collision name="top_wall">
+          <pose>0 -6 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>20 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="top_wall_visual">
+          <pose>0 -6 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>20 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Bottom corridor wall -->
+        <collision name="bottom_wall">
+          <pose>0 6 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>20 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="bottom_wall_visual">
+          <pose>0 6 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>20 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Patient Room 1 -->
+    <model name="patient_room_1">
+      <static>true</static>
+      <pose>8 -8 0 0 0 0</pose>
+      <link name="room_walls">
+        <!-- Front wall with door -->
+        <collision name="front_wall_1">
+          <pose>-1.5 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="front_wall_1_visual">
+          <pose>-1.5 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.8 0.5 1</ambient>
+            <diffuse>0.5 0.8 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="front_wall_2">
+          <pose>1 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>2 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="front_wall_2_visual">
+          <pose>1 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>2 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.8 0.5 1</ambient>
+            <diffuse>0.5 0.8 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Back wall -->
+        <collision name="back_wall">
+          <pose>0 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="back_wall_visual">
+          <pose>0 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.8 0.5 1</ambient>
+            <diffuse>0.5 0.8 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Left wall -->
+        <collision name="left_wall">
+          <pose>-2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="left_wall_visual">
+          <pose>-2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.8 0.5 1</ambient>
+            <diffuse>0.5 0.8 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Right wall -->
+        <collision name="right_wall">
+          <pose>2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="right_wall_visual">
+          <pose>2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.8 0.5 1</ambient>
+            <diffuse>0.5 0.8 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Patient Room 2 -->
+    <model name="patient_room_2">
+      <static>true</static>
+      <pose>8 8 0 0 0 0</pose>
+      <link name="room_walls">
+        <!-- Back wall with door -->
+        <collision name="back_wall_1">
+          <pose>-1.5 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="back_wall_1_visual">
+          <pose>-1.5 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.5 0.5 1</ambient>
+            <diffuse>0.8 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="back_wall_2">
+          <pose>1 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>2 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="back_wall_2_visual">
+          <pose>1 -2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>2 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.5 0.5 1</ambient>
+            <diffuse>0.8 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Front wall -->
+        <collision name="front_wall">
+          <pose>0 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="front_wall_visual">
+          <pose>0 2 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>4 0.2 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.5 0.5 1</ambient>
+            <diffuse>0.8 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Left wall -->
+        <collision name="left_wall">
+          <pose>-2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="left_wall_visual">
+          <pose>-2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.5 0.5 1</ambient>
+            <diffuse>0.8 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+
+        <!-- Right wall -->
+        <collision name="right_wall">
+          <pose>2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="right_wall_visual">
+          <pose>2 0 1 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.2 4 2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.5 0.5 1</ambient>
+            <diffuse>0.8 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Scene lighting -->
+    <light name='hospital_light_1' type='point'>
+      <pose>-5 0 3 0 0 0</pose>
+      <diffuse>0.7 0.7 0.7 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+    </light>
+
+    <light name='hospital_light_2' type='point'>
+      <pose>5 0 3 0 0 0</pose>
+      <diffuse>0.7 0.7 0.7 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+    </light>
+
+    <!-- Camera view -->
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>0 -15 10 0 0.5 1.57</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+
+  </world>
+</sdf>

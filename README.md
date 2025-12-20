@@ -163,7 +163,6 @@ The simulated hospital environment includes:
 - **Patient Room 1** (Green): Located on the right side, bottom (-8, -8)
 - **Patient Room 2** (Red): Located on the right side, top (8, 8)
 
-![Hospital Layout](docs/hospital_layout.png)
 
 ## Robot Specifications
 
@@ -206,29 +205,12 @@ Adjust parameters in `src/medibot_navigation/config/nav2_params.yaml` for:
 - Planner behavior
 - Recovery behaviors
 
-## Troubleshooting
-
-**Robot doesn't move:**
-- Check that cmd_vel topic is being published: `ros2 topic echo /cmd_vel`
-- Verify Gazebo plugins are loaded correctly
-
-**Navigation fails:**
-- Ensure map is loaded correctly: `ros2 topic echo /map`
-- Check TF tree: `ros2 run tf2_tools view_frames`
-- Verify laser scan is publishing: `ros2 topic echo /scan`
-
-**SLAM not working:**
-- Confirm laser scanner is active in Gazebo
-- Check that odom is being published: `ros2 topic echo /odom`
-
 ## Future Enhancements
 
 - [ ] Multiple floor support
-- [ ] Dynamic obstacle avoidance
 - [ ] Patient tracking and delivery systems
 - [ ] Multi-robot coordination
 - [ ] Integration with hospital management systems
-- [ ] Advanced path planning with time constraints
 
 ## Contributing
 
@@ -238,9 +220,7 @@ Contributions are welcome! Please feel free to submit pull requests or open issu
 
 Apache License 2.0
 
-## Authors
 
-Medibot Development Team
 
 ## Acknowledgments
 

@@ -1,24 +1,5 @@
-# ROS2 workspace
 build/
 install/
 log/
-
-# Python
+*.pyc
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-dist/
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db

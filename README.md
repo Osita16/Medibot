@@ -8,8 +8,8 @@ Medibot is designed to simulate real-world hospital delivery tasks where a robot
 > Simulation → SLAM Mapping → Localization → Autonomous Navigation
 
 ---
-<img width="1072" height="854" alt="image" src="https://github.com/user-attachments/assets/bd013591-6ab7-4577-89de-845d1ef92121" />
 
+<img width="1072" height="854" alt="image" src="https://github.com/user-attachments/assets/bd013591-6ab7-4577-89de-845d1ef92121" />
 
 ---
 
@@ -56,12 +56,12 @@ Gazebo → SLAM → Map → AMCL → Nav2 → Goal Navigation
 ## 📁 Project Structure
 
 ```bash
-Medibot/
-├── src/
-│   ├── medibot_description/
-│   ├── medibot_gazebo/
-│   └── medibot_navigation/
-└── README.md
+medibot_ws/
+└── src/
+    ├── medibot_description/
+    ├── medibot_gazebo/
+    ├── medibot_navigation/
+    └── aws-robomaker-hospital-world/
 ```
 
 ---
@@ -70,38 +70,92 @@ Medibot/
 
 ```bash
 sudo apt update
-sudo apt install ros-humble-gazebo-ros-pkgs \
-                 ros-humble-navigation2 \
-                 ros-humble-nav2-bringup \
-                 ros-humble-slam-toolbox
+sudo apt install \
+  ros-humble-gazebo-ros-pkgs \
+  ros-humble-navigation2 \
+  ros-humble-nav2-bringup \
+  ros-humble-slam-toolbox
 ```
 
 ---
 
-## ▶️ How to Run
+# ▶️ How to Run (FINAL WORKING SETUP)
 
+> ⚠️ Use **multiple terminals** (important)
 
-### 1️⃣ Launch Simulation
+---
+
+## 🟢 Terminal 1 — Launch Hospital World
 
 ```bash
-cd ~/medibot_ws
-colcon build
-source install/setup.bash
-ros2 launch medibot_gazebo hospital_simulation.launch.py
+source /opt/ros/humble/setup.bash
+
+export GAZEBO_MODEL_PATH=~/medibot_ws/src/aws-robomaker-hospital-world/models
+
+killall gzserver gzclient 2>/dev/null
+gazebo --verbose ~/medibot_ws/src/aws-robomaker-hospital-world/worlds/hospital.world
 ```
 
 ---
 
-### 2️⃣ Run SLAM (First-Time Mapping)
+## 🟢 Terminal 2 — Robot State Publisher
 
 ```bash
-ros2 launch medibot_navigation slam.launch.py
+source /opt/ros/humble/setup.bash
+source ~/medibot_ws/install/setup.bash
+
+ros2 run robot_state_publisher robot_state_publisher \
+~/medibot_ws/src/medibot_description/urdf/medibot.urdf
 ```
 
-Control robot:
+---
+
+## 🟢 Terminal 3 — Spawn Robot
 
 ```bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+source /opt/ros/humble/setup.bash
+source ~/medibot_ws/install/setup.bash
+
+ros2 run gazebo_ros spawn_entity.py \
+-entity medibot \
+-file ~/medibot_ws/src/medibot_description/urdf/medibot.urdf \
+-x 0 -y 0 -z 0.2
+```
+
+---
+
+## 🟢 Terminal 4 — Start Navigation (Nav2)
+
+```bash
+source /opt/ros/humble/setup.bash
+source ~/medibot_ws/install/setup.bash
+
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
+```
+
+---
+
+## 🟢 Terminal 5 — RViz
+
+```bash
+source /opt/ros/humble/setup.bash
+rviz2
+```
+
+---
+
+## 🎯 In RViz
+
+* Set **Fixed Frame → map**
+* Click **2D Pose Estimate**
+* Click **Nav2 Goal**
+
+---
+
+## 🔁 SLAM Mode (Optional – First Time Mapping)
+
+```bash
+ros2 launch nav2_bringup slam_launch.py use_sim_time:=true
 ```
 
 Save map:
@@ -112,22 +166,7 @@ ros2 run nav2_map_server map_saver_cli -f ~/medibot_map
 
 ---
 
-### 3️⃣ Run Autonomous Navigation
-
-```bash
-ros2 launch medibot_navigation navigation.launch.py
-```
-
----
-
-## 🎯 Set Navigation Goals
-
-### 🖱️ Using RViz
-
-* Click **2D Pose Estimate**
-* Click **Nav2 Goal**
-
-### 💻 Using CLI
+## 🎯 Set Navigation Goals (CLI)
 
 ```bash
 ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped "
@@ -163,29 +202,29 @@ pose:
 
 ## 🧭 Navigation Stack
 
-* **Global Planner** → NavFn
-* **Local Planner** → DWB Controller
-* **Localization** → AMCL
-* **Recovery** → Spin, Backup
+* Global Planner → NavFn
+* Local Planner → DWB Controller
+* Localization → AMCL
+* Recovery → Spin, Backup
 
 ---
 
 ## 💡 Why This Project?
 
-* Demonstrates **complete robotics autonomy pipeline**
+* Demonstrates full robotics autonomy pipeline
 * Combines perception, localization, and planning
-* Real-world application in hospital automation
+* Real-world hospital automation use-case
 * Strong portfolio project for robotics roles
 
 ---
 
 ## 🚧 Future Improvements
 
+* Camera + YOLO integration 🤖
 * Multi-goal scheduling
 * Multi-robot coordination
 * Dynamic obstacle handling
 * Real robot deployment
-
 
 ---
 

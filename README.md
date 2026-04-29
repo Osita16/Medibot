@@ -8,6 +8,7 @@ Medibot is designed to simulate real-world hospital delivery tasks where a robot
 > Simulation → SLAM Mapping → Localization → Autonomous Navigation
 
 ---
+<img width="1072" height="854" alt="image" src="https://github.com/user-attachments/assets/bd013591-6ab7-4577-89de-845d1ef92121" />
 
 
 ---
@@ -78,6 +79,7 @@ sudo apt install ros-humble-gazebo-ros-pkgs \
 ---
 
 ## ▶️ How to Run
+
 
 ### 1️⃣ Launch Simulation
 

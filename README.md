@@ -13,6 +13,7 @@ Medibot is designed to simulate real-world hospital delivery tasks where a robot
 
 ---
 
+
 ## 🔄 System Pipeline
 
 ```text
@@ -78,79 +79,149 @@ sudo apt install \
 ```
 
 ---
+# ▶️ How to Run (Copy-Paste Ready)
 
-# ▶️ How to Run (FINAL WORKING SETUP)
-
-> ⚠️ Use **multiple terminals** (important)
+> ⚠️ Open **5 terminals** and run commands in order.
 
 ---
 
-## 🟢 Terminal 1 — Launch Hospital World
+# 🟢 Terminal 1 — Launch Simulation
 
 ```bash
 source /opt/ros/humble/setup.bash
+source ~/medibot_ws/install/setup.bash
 
 export GAZEBO_MODEL_PATH=~/medibot_ws/src/aws-robomaker-hospital-world/models
 
-killall gzserver gzclient 2>/dev/null
-gazebo --verbose ~/medibot_ws/src/aws-robomaker-hospital-world/worlds/hospital.world
+ros2 launch medibot_gazebo sim.launch.py
 ```
 
 ---
 
-## 🟢 Terminal 2 — Robot State Publisher
+# 🟢 Terminal 2 — Launch SLAM
 
 ```bash
 source /opt/ros/humble/setup.bash
 source ~/medibot_ws/install/setup.bash
 
-ros2 run robot_state_publisher robot_state_publisher \
-~/medibot_ws/src/medibot_description/urdf/medibot.urdf
+ros2 launch nav2_bringup slam_launch.py use_sim_time:=true
 ```
 
 ---
 
-## 🟢 Terminal 3 — Spawn Robot
+# 🟢 Terminal 3 — Open RViz
 
 ```bash
 source /opt/ros/humble/setup.bash
-source ~/medibot_ws/install/setup.bash
 
-ros2 run gazebo_ros spawn_entity.py \
--entity medibot \
--file ~/medibot_ws/src/medibot_description/urdf/medibot.urdf \
--x 0 -y 0 -z 0.2
-```
-
----
-
-## 🟢 Terminal 4 — Start Navigation (Nav2)
-
-```bash
-source /opt/ros/humble/setup.bash
-source ~/medibot_ws/install/setup.bash
-
-ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true
-```
-
----
-
-## 🟢 Terminal 5 — RViz
-
-```bash
-source /opt/ros/humble/setup.bash
 rviz2
 ```
 
 ---
 
-## 🎯 In RViz
+# 🟢 RViz Setup
 
-* Set **Fixed Frame → map**
-* Click **2D Pose Estimate**
-* Click **Nav2 Goal**
+Set:
+
+```text
+Fixed Frame → map
+```
+
+Add:
+
+* TF
+* LaserScan → `/scan`
+* Map → `/map`
 
 ---
+
+# 🟢 Terminal 4 — Teleop Robot
+
+```bash
+source /opt/ros/humble/setup.bash
+source ~/medibot_ws/install/setup.bash
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+Control Keys:
+
+```text
+i → forward
+k → stop
+j → left
+l → right
+```
+
+---
+
+# 🟢 Save Map
+
+After exploring environment:
+
+```bash
+ros2 run nav2_map_server map_saver_cli -f ~/medibot_map
+```
+
+---
+
+# 🟢 Terminal 5 — Autonomous Navigation
+
+Stop SLAM first, then run:
+
+```bash
+source /opt/ros/humble/setup.bash
+source ~/medibot_ws/install/setup.bash
+
+ros2 launch nav2_bringup navigation_launch.py \
+use_sim_time:=true \
+map:=~/medibot_map.yaml
+```
+
+---
+
+# 🎯 Navigation in RViz
+
+1. Click **2D Pose Estimate**
+2. Set robot pose
+3. Click **Nav2 Goal**
+4. Select destination
+
+Robot will autonomously navigate to target location.
+
+---
+
+# 🔍 Debugging Commands
+
+## Check LaserScan
+
+```bash
+ros2 topic echo /scan
+```
+
+## Check Odometry
+
+```bash
+ros2 topic echo /odom
+```
+
+## Check TF Tree
+
+```bash
+ros2 run tf2_tools view_frames
+```
+
+---
+
+# ✅ Expected Working Topics
+
+```bash
+/scan
+/odom
+/map
+/tf
+/cmd_vel
+```
 
 ## 🔁 SLAM Mode (Optional – First Time Mapping)
 
